@@ -76,10 +76,9 @@
 <body>
   <div class="hero-bg flex items-center justify-center">
     <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-      <!-- Subtle backdrop behind title for legibility -->
-      <div class="backdrop-blur-[1.5px] bg-black/10 rounded-2xl px-4 py-2">
-        <h1 class="text-5xl md:text-8xl font-bold mb-6 glow-text"
-            data-aos="fade-down" data-aos-duration="1000">
+      <!-- Title with GSAP-only fade -->
+      <div class="backdrop-blur-[1.5px] bg-black/10 rounded-2xl px-4 py-2 z-10">
+        <h1 class="text-5xl md:text-8xl font-bold mb-6 glow-text opacity-0">
           MyOwnFraming
         </h1>
       </div>
@@ -142,12 +141,19 @@
   </footer>
 
   <script>
-    // Init libraries after DOM ready
     document.addEventListener('DOMContentLoaded', function () {
       AOS.init({ once: true, duration: 800 });
       feather.replace();
-      gsap.from(".glow-text", { opacity: 0, y: 20, duration: 1.2, ease: "power2.out" });
+
+      // Fade in the H1 on load
+      gsap.to("h1.glow-text", {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: "power2.out"
+      });
     });
   </script>
 </body>
 </html>
+
