@@ -1,153 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyOwnFraming</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&display=swap');
-        
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            overflow-x: hidden;
-            background-color: #0a0a0a;
-            color: #f8f8f8;
-        }
-        
-        .hero-bg {
-            background-image: url('http://static.photos/nature/1920x1080/42');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            height: 100vh;
-            position: relative;
-            isolation: isolate;
-        }
-        
-        .hero-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
-            z-index: -1;
-        }
-        
-        .glow-text {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-            animation: glow 3s ease-in-out infinite alternate;
-        }
-        
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-            }
-            to {
-                text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-            }
-        }
-        
-        .nav-link {
-            position: relative;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: 0;
-            left: 0;
-            background-color: #f8f8f8;
-            transition: width 0.3s ease;
-        }
-        
-        .nav-link:hover::after {
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyOwnFraming</title>
+  <meta name="description" content="Every Mirror Deserves Its Own Rightful Frame." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS (CSS + JS) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <!-- Icons + Anim -->
+  <script defer src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      overflow-x: hidden;
+      background-color: #0a0a0a;
+      color: #f8f8f8;
+    }
+
+    .hero-bg {
+      background-image: url('images/horizon-hero.png'); /* your file */
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      height: 100vh;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 45%, rgba(0,0,0,0.65) 100%);
+      z-index: -1;
+    }
+
+    .glow-text {
+      text-shadow: 0 0 10px rgba(255,255,255,0.30);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 5px rgba(255,255,255,0.30); }
+      to   { text-shadow: 0 0 15px rgba(255,255,255,0.60); }
+    }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0; height: 1px; bottom: 0; left: 0;
+      background-color: #f8f8f8;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Mobile optimization: fixed backgrounds are janky on iOS */
+    @media (max-width: 640px) {
+      .hero-bg { background-attachment: scroll; }
+    }
+  </style>
 </head>
 <body>
-    <div class="hero-bg flex items-center justify-center">
-        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-            <h1 class="text-6xl md:text-8xl font-bold mb-6 glow-text" data-aos="fade-down" data-aos-duration="1000">
-                MyOwnFraming
-            </h1>
-            <p class="text-xl md:text-2xl italic mb-12 max-w-2xl" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
-                "Every Mirror Deserves Its Own Rightful Frame."
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-6" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
-                <a href="#" class="nav-link px-8 py-3 border border-white rounded-full hover:bg-white hover:bg-opacity-10 transition-all duration-300">
-                    Tenets
-                </a>
-                <a href="#" class="nav-link px-8 py-3 border border-white rounded-full hover:bg-white hover:bg-opacity-10 transition-all duration-300">
-                    About
-                </a>
-                <a href="#" class="nav-link px-8 py-3 border border-white rounded-full hover:bg-white hover:bg-opacity-10 transition-all duration-300">
-                    Codex
-                </a>
-            </div>
-            
-            <div class="absolute bottom-8 left-0 right-0 flex justify-center">
-                <a href="#content" class="animate-bounce">
-                    <i data-feather="chevron-down" class="w-8 h-8"></i>
-                </a>
-            </div>
-        </div>
+  <div class="hero-bg flex items-center justify-center">
+    <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+      <!-- Subtle backdrop behind title for legibility -->
+      <div class="backdrop-blur-[1.5px] bg-black/10 rounded-2xl px-4 py-2">
+        <h1 class="text-5xl md:text-8xl font-bold mb-6 glow-text"
+            data-aos="fade-down" data-aos-duration="1000">
+          MyOwnFraming
+        </h1>
+      </div>
+
+      <p class="text-xl md:text-2xl italic mb-12 max-w-2xl"
+         data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+        “Every Mirror Deserves Its Own Rightful Frame.”
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-6"
+           data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+        <a href="#" class="nav-link px-8 py-3 border border-white rounded-full hover:bg-white hover:bg-opacity-10 transition-all duration-300">
+          Tenets
+        </a>
+        <a href="#" class="nav-link px-8 py-3 border border-white rounded-full hover:bg-white hover:bg-opacity-10 transition-all duration-300">
+          About
+        </a>
+        <a href="#" class="nav-link px-8 py-3 border border-white rounded-full hover:bg-white hover:bg-opacity-10 transition-all duration-300">
+          Codex
+        </a>
+      </div>
+
+      <div class="absolute bottom-8 left-0 right-0 flex justify-center">
+        <a href="#content" class="animate-bounce" aria-label="Scroll to content">
+          <i data-feather="chevron-down" class="w-8 h-8"></i>
+        </a>
+      </div>
     </div>
-    
-    <section id="content" class="py-20 px-4 max-w-6xl mx-auto">
-        <div class="grid md:grid-cols-3 gap-12">
-            <div class="text-center" data-aos="fade-up">
-                <i data-feather="compass" class="w-12 h-12 mx-auto mb-4"></i>
-                <h3 class="text-2xl font-semibold mb-4">Guiding Principles</h3>
-                <p class="text-gray-300">Discover the foundational tenets that shape our approach to framing perspectives and experiences.</p>
-            </div>
-            
-            <div class="text-center" data-aos="fade-up" data-aos-delay="200">
-                <i data-feather="book-open" class="w-12 h-12 mx-auto mb-4"></i>
-                <h3 class="text-2xl font-semibold mb-4">Living Codex</h3>
-                <p class="text-gray-300">Explore the evolving collection of insights, reflections, and frameworks that inform our journey.</p>
-            </div>
-            
-            <div class="text-center" data-aos="fade-up" data-aos-delay="400">
-                <i data-feather="users" class="w-12 h-12 mx-auto mb-4"></i>
-                <h3 class="text-2xl font-semibold mb-4">Shared Path</h3>
-                <p class="text-gray-300">Join a community of thinkers and creators committed to finding their own rightful frames.</p>
-            </div>
-        </div>
-    </section>
-    
-    <footer class="py-12 px-4 border-t border-gray-800 text-center">
-        <p class="text-gray-400 mb-4">© 2023 MyOwnFraming. All mirrors framed with intention.</p>
-        <div class="flex justify-center gap-4">
-            <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="twitter"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="instagram"></i></a>
-            <a href="#" class="text-gray-400 hover:text-white transition"><i data-feather="github"></i></a>
-        </div>
-    </footer>
-    
-    <script>
-        AOS.init({
-            once: true,
-            duration: 800
-        });
-        
-        feather.replace();
-        
-        gsap.from(".glow-text", {
-            opacity: 0,
-            y: 20,
-            duration: 1.5,
-            ease: "power2.out"
-        });
-    </script>
+  </div>
+
+  <section id="content" class="py-20 px-4 max-w-6xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-12">
+      <div class="text-center" data-aos="fade-up">
+        <i data-feather="compass" class="w-12 h-12 mx-auto mb-4"></i>
+        <h3 class="text-2xl font-semibold mb-4">Guiding Principles</h3>
+        <p class="text-gray-300">Discover the foundational tenets that shape our approach to framing perspectives and experiences.</p>
+      </div>
+
+      <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+        <i data-feather="book-open" class="w-12 h-12 mx-auto mb-4"></i>
+        <h3 class="text-2xl font-semibold mb-4">Living Codex</h3>
+        <p class="text-gray-300">Explore the evolving collection of insights, reflections, and frameworks that inform our journey.</p>
+      </div>
+
+      <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+        <i data-feather="users" class="w-12 h-12 mx-auto mb-4"></i>
+        <h3 class="text-2xl font-semibold mb-4">Shared Path</h3>
+        <p class="text-gray-300">Join a community of thinkers and creators committed to finding their own rightful frames.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-12 px-4 border-t border-gray-800 text-center">
+    <p class="text-gray-400 mb-4">© 2025 MyOwnFraming. All mirrors framed with intention.</p>
+    <div class="flex justify-center gap-4">
+      <a href="#" class="text-gray-400 hover:text-white transition" aria-label="Twitter"><i data-feather="twitter"></i></a>
+      <a href="#" class="text-gray-400 hover:text-white transition" aria-label="Instagram"><i data-feather="instagram"></i></a>
+      <a href="#" class="text-gray-400 hover:text-white transition" aria-label="GitHub"><i data-feather="github"></i></a>
+    </div>
+  </footer>
+
+  <script>
+    // Init libraries after DOM ready
+    document.addEventListener('DOMContentLoaded', function () {
+      AOS.init({ once: true, duration: 800 });
+      feather.replace();
+      gsap.from(".glow-text", { opacity: 0, y: 20, duration: 1.2, ease: "power2.out" });
+    });
+  </script>
 </body>
 </html>
