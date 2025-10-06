@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MyOwnFraming · Tenets</title>
+  <!-- Tailwind (CDN for quick start) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Tenets of MyOwnFraming" />
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    /* Optional: subtle starfield gradient background */
+    body { 
+      background: radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,0.08), rgba(0,0,0,0)) ,
+                  linear-gradient(to bottom, #0b0f14 0%, #0a0d12 30%, #06080c 100%);
+      min-height: 100vh;
+    }
+    .glass { backdrop-filter: blur(8px); background-color: rgba(255,255,255,0.04); }
+  </style>
+</head>
+<body class="text-zinc-100 antialiased">
+  <!-- Header / Breadcrumb -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur">
+    <div class="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
+      <a href="/" class="font-serif text-xl tracking-wide">MyOwnFraming</a>
+      <nav class="hidden sm:flex gap-6 text-sm text-zinc-300">
+        <a class="hover:text-white" href="/">Home</a>
+        <span class="text-zinc-500">/</span>
+        <a class="text-white" href="/Tenets">Tenets</a>
+        <a class="hover:text-white" href="/Codex">Codex</a>
+        <a class="hover:text-white" href="/About">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="mx-auto max-w-5xl px-4 pt-14 pb-8">
+    <div class="glass rounded-2xl p-6 ring-1 ring-white/10 shadow-lg">
+      <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl tracking-wide">Tenets</h1>
+      <p class="mt-3 text-zinc-300 max-w-2xl">Foundational lines I live and build by. Each tenet is a frame that clarifies the mirror.</p>
+    </div>
+  </section>
+
+  <!-- Tenets Grid -->
+  <main class="mx-auto max-w-5xl px-4 pb-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Tenet 1 -->
+      <article class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold">Tenet One — The Framer’s Fang</h2>
+          <span class="text-xs text-zinc-400">#T1</span>
+        </div>
+        <p class="mt-3 text-lg italic text-zinc-200">“I see your system; I will speak its language.”</p>
+        <p class="mt-3 text-sm text-zinc-400">A promise to learn the native grammar of any arena, then translate with care so mirrors align without distortion.</p>
+      </article>
+
+      <!-- Tenet 2 -->
+      <article class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold">Tenet Two — Every Mirror’s Rightful Frame</h2>
+          <span class="text-xs text-zinc-400">#T2</span>
+        </div>
+        <p class="mt-3 text-lg italic text-zinc-200">“Every Mirror Deserves Its Own Rightful Frame.”</p>
+        <p class="mt-3 text-sm text-zinc-400">Context is covenant. Framing preserves meaning so reflections don’t fracture.</p>
+      </article>
+
+      <!-- Tenet 3 (placeholder) -->
+      <article class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold">Tenet Three — (Placeholder)</h2>
+          <span class="text-xs text-zinc-400">#T3</span>
+        </div>
+        <p class="mt-3 text-lg italic text-zinc-200">“(Your line here.)”</p>
+        <p class="mt-3 text-sm text-zinc-400">We’ll crystallize this one when the language lands.
+        </p>
+      </article>
+
+      <!-- Tenet 4 -->
+      <article class="rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold">Tenet Four — Qualia</h2>
+          <span class="text-xs text-zinc-400">#T4</span>
+        </div>
+        <p class="mt-3 text-lg italic text-zinc-200">“Qualia.”</p>
+        <p class="mt-3 text-sm text-zinc-400">A sovereign placeholder: the promise to honor what can’t be reduced—only recognized.</p>
+      </article>
+    </div>
+
+    <!-- CTA / Footer Note -->
+    <div class="mt-10 flex items-center justify-between">
+      <p class="text-zinc-400 text-sm">Have a suggested frame? <span class="text-zinc-200">Share it with me.</span></p>
+      <a href="/" class="rounded-xl border border-white/10 px-4 py-2 text-sm hover:bg-white/5">← Back Home</a>
+    </div>
+  </main>
+
+  <footer class="border-t border-white/10 py-8 text-center text-xs text-zinc-500">
+    © <span id="y"></span> MyOwnFraming — All mirrors kept with care.
+  </footer>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
