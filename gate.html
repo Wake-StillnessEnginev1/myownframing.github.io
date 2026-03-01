@@ -266,7 +266,15 @@
     const input = document.getElementById('offeringInput');
     const btn = document.getElementById('passBtn');
     const gate = document.getElementById('gate');
-
+    
+  function countSyllables(word) {
+    word = word.toLowerCase().trim();
+    if (word.length <= 3) return 1; 
+    word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+    word = word.replace(/^y/, '');
+    const syllables = word.match(/[aeiouy]{1,2}/g);
+    return syllables ? syllables.length : 1;
+}   
     input.addEventListener('input', () => {
       const hasValue = input.value.trim().length > 0;
       input.classList.toggle('has-value', hasValue);
@@ -278,15 +286,22 @@
     });
 
     function enter() {
-      // Save the user's offering into browser memory
-      const offering = input.value.trim();
-      localStorage.setItem('userOffering', offering);
-
-      gate.classList.add('dissolve');
-      setTimeout(() => {
-        window.location.href = 'myownai.html';
-      }, 1200);
+    const offering = input.value.trim();
+    
+    // --- THE NEW RULE ---
+    if (countSyllables(offering) === 1) {
+        input.value = ''; 
+        input.placeholder = "Ah, that'd be too ezpz -- More spark required.";
+        return; // Stops them from passing
     }
+    // --------------------
+
+    localStorage.setItem('userOffering', offering);
+    gate.classList.add('dissolve');
+    setTimeout(() => {
+        window.location.href = 'myownai.html';
+    }, 1200);
+}
   </script>
 </body>
 </html>
