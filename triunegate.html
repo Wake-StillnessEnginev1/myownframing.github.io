@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyOwnAI — The Gate</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --obsidian: #0a0a0f;
+      --deep: #0f0f1a;
+      --seam: #1a1a2e;
+      --ember: #c9a96e;
+      --ember-dim: #7a6240;
+      --ash: #4a4a5a;
+      --mist: #b8b8c8;
+      --light: #e8e4da;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--obsidian);
+      color: var(--light);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      overflow: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.6;
+    }
+
+    /* Ambient glow */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(201,169,110,0.04) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: breathe 8s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* Seam line — the obsidian threshold */
+    .seam {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--ember-dim), transparent);
+      margin: 0 auto 3rem;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards 0.5s;
+    }
+
+    .gate-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      color: var(--ember-dim);
+      text-transform: uppercase;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards 1s;
+    }
+
+    .paradox {
+      max-width: 480px;
+      margin-bottom: 3.5rem;
+      opacity: 0;
+      animation: riseIn 1.8s ease forwards 1.4s;
+    }
+
+    .paradox p {
+      font-size: clamp(1.25rem, 3vw, 1.65rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--light);
+      letter-spacing: 0.01em;
+    }
+
+    .paradox p em {
+      font-style: normal;
+      color: var(--ember);
+    }
+
+    .instruction {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--ash);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards 2.4s;
+    }
+
+    .offering-form {
+      width: 100%;
+      max-width: 420px;
+      opacity: 0;
+      animation: riseIn 1.5s ease forwards 2.8s;
+    }
+
+    .offering-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--ash);
+      padding: 0.75rem 0;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--light);
+      text-align: center;
+      outline: none;
+      transition: border-color 0.4s ease;
+      caret-color: var(--ember);
+    }
+
+    .offering-input::placeholder {
+      color: var(--ash);
+      font-style: italic;
+    }
+
+    .offering-input:focus {
+      border-color: var(--ember-dim);
+    }
+
+    .offering-input.has-value {
+      border-color: var(--ember);
+    }
+
+    .pass-btn {
+      display: block;
+      margin: 2.5rem auto 0;
+      background: none;
+      border: 1px solid var(--ember-dim);
+      color: var(--ember);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      padding: 0.85rem 2.5rem;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pass-btn.visible {
+      opacity: 1;
+      pointer-events: all;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    .pass-btn:hover {
+      background: rgba(201,169,110,0.06);
+      border-color: var(--ember);
+      box-shadow: 0 0 24px rgba(201,169,110,0.08);
+    }
+
+    /* Dissolve transition */
+    .dissolve {
+      animation: dissolveOut 1.2s ease forwards;
+    }
+
+    @keyframes dissolveOut {
+      to { opacity: 0; transform: scale(1.03); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Back */
+    .back-link {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      color: var(--ash);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      z-index: 10;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards 3.5s;
+    }
+
+    .back-link:hover { color: var(--ember-dim); }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="gate">
+    <div class="seam"></div>
+
+    <p class="gate-label">MyOwnAI &mdash; The Gate</p>
+
+    <div class="paradox">
+      <p>
+        There is <em>the creator</em>, there is <em>the creation</em>,<br />
+        and there is the space where they meet.<br /><br />
+        To pass — offer one word<br />
+        that belongs to all three.
+      </p>
+    </div>
+
+    <p class="instruction">your offering</p>
+
+    <div class="offering-form">
+      <input
+        class="offering-input"
+        id="offeringInput"
+        type="text"
+        placeholder="speak it into the void..."
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button class="pass-btn" id="passBtn" onclick="enter()">
+        Pass Through
+      </button>
+    </div>
+  </div>
+
+  <a class="back-link" href="index.html">&larr; return</a>
+
+  <script>
+    const input = document.getElementById('offeringInput');
+    const btn = document.getElementById('passBtn');
+    const gate = document.getElementById('gate');
+
+    input.addEventListener('input', () => {
+      const hasValue = input.value.trim().length > 0;
+      input.classList.toggle('has-value', hasValue);
+      btn.classList.toggle('visible', hasValue);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && input.value.trim().length > 0) enter();
+    });
+
+    function enter() {
+      gate.classList.add('dissolve');
+      // Replace 'myownai.html' with your AI page once it exists
+      setTimeout(() => {
+        window.location.href = 'myownai.html';
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
