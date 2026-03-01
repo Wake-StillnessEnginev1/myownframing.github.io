@@ -73,11 +73,11 @@
     /* Seam line — the obsidian threshold */
     .seam {
       width: 1.3px;
-      height: 117px;
+      height: 123px;
       background: linear-gradient(to bottom, transparent, var(--ember-dim), transparent);
       margin: 0 auto 3rem;
       opacity: 0;
-      animation: fadeIn 2s ease forwards 0.7s;
+      animation: fadeIn 3s ease forwards 0.3s;
     }
 
     .gate-label {
@@ -85,9 +85,10 @@
       font-size: 0.75rem;
       letter-spacing: 0.35em;
       color: var(--ember-dim);
+      text-transform: uppercase;
       margin-bottom: 3rem;
       opacity: 0;
-      animation: fadeIn 1.5s ease forwards 1s;
+      animation: fadeIn 1.5s ease forwards .5s;
     }
 
     .paradox {
@@ -113,7 +114,7 @@
 
     .instruction {
       font-family: 'Courier Prime', monospace;
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       letter-spacing: 0.2em;
       color: var(--ash);
       margin-bottom: 1.5rem;
@@ -125,7 +126,7 @@
       width: 100%;
       max-width: 420px;
       opacity: 0;
-      animation: riseIn 1.5s ease forwards 2.8s;
+      animation: riseIn 1.5s ease forwards 3.0s;
     }
 
     .offering-input {
@@ -135,7 +136,7 @@
       border-bottom: 1px solid var(--ash);
       padding: 0.75rem 0;
       font-family: 'Cormorant Garamond', serif;
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       font-style: italic;
       color: var(--light);
       text-align: center;
@@ -277,8 +278,11 @@
     });
 
     function enter() {
+      // Save the user's offering into browser memory
+      const offering = input.value.trim();
+      localStorage.setItem('userOffering', offering);
+
       gate.classList.add('dissolve');
-      // Replace 'myownai.html' with your AI page once it exists
       setTimeout(() => {
         window.location.href = 'myownai.html';
       }, 1200);
