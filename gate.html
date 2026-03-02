@@ -1,307 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyOwnAI — The Gate</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyOwnFraming — The Vestibule</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --obsidian: #0a0a0f;
-      --deep: #0f0f1a;
-      --seam: #1a1a2e;
-      --ember: #c9a96e;
-      --ember-dim: #7a6240;
-      --ash: #4a4a5a;
-      --mist: #b8b8c8;
-      --light: #e8e4da;
-    }
+  :root {
+    --deep: #07080b;
+    --night: #0c0e14;
+    --ember: #c8864a;
+    --ember-dim: #7a5230;
+    --gold: #c9a84c;
+    --mist: #8a8d99;
+    --light: #e2ddd5;
+    --light-dim: #a09c94;
+  }
 
-    html, body {
-      height: 100%;
-      background: var(--obsidian);
-      color: var(--light);
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      overflow: hidden;
-    }
+  html, body {
+    height: 100%;
+    background: var(--deep);
+    color: var(--light);
+    font-family: 'Cormorant Garamond', serif;
+    overflow: hidden;
+  }
 
-    /* Grain overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 100;
-      opacity: 0.6;
-    }
+  /* ── BACKGROUND ATMOSPHERE ── */
+  .bg {
+    position: fixed; inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
 
-    /* Ambient glow */
-    body::after {
-      content: '';
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(ellipse, rgba(201,169,110,0.04) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 0;
-      animation: breathe 8s ease-in-out infinite;
-    }
+  /* Moon / radiance source */
+  .bg::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center,
+      rgba(180, 130, 60, 0.12) 0%,
+      rgba(140, 90, 40, 0.06) 40%,
+      transparent 70%
+    );
+    animation: moonpulse 6s ease-in-out infinite;
+  }
 
-    @keyframes breathe {
-      0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-    }
+  /* Ground mist */
+  .bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top,
+      rgba(200, 134, 74, 0.04) 0%,
+      transparent 100%
+    );
+  }
 
-    .container {
-      position: relative;
-      z-index: 1;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      text-align: center;
-    }
+  @keyframes moonpulse {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+  }
 
-    /* Seam line — the obsidian threshold */
-    .seam {
-      width: 1.3px;
-      height: 123px;
-      background: linear-gradient(to bottom, transparent, var(--ember-dim), transparent);
-      margin: 0 auto 3rem;
-      opacity: 0;
-      animation: fadeIn 3s ease forwards 0.3s;
-    }
+  /* Floating particles */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(200, 134, 74, 0.15);
+    animation: float linear infinite;
+  }
 
-    .gate-label {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.35em;
-      color: var(--ember-dim);
-      text-transform: uppercase;
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards .5s;
-    }
+  @keyframes float {
+    0% { transform: translateY(110vh) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) translateX(var(--drift)); opacity: 0; }
+  }
 
-    .paradox {
-      max-width: 480px;
-      margin-bottom: 3.5rem;
-      opacity: 0;
-      animation: riseIn 1.8s ease forwards 1.4s;
-    }
+  /* ── CONTENT ── */
+  #vestibule {
+    position: relative; z-index: 10;
+    height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 2rem;
+    transition: opacity 1.2s ease;
+  }
 
-    .paradox p {
-      font-size: clamp(1.25rem, 3vw, 1.65rem);
-      font-weight: 300;
-      font-style: italic;
-      line-height: 2.0;
-      color: var(--light);
-      letter-spacing: 0.01em;
-    }
+  #vestibule.dissolve {
+    opacity: 0;
+    pointer-events: none;
+  }
 
-    .paradox p em {
-      font-style: normal;
-      color: var(--ember);
-    }
+  /* Thin horizontal rule — marks the threshold */
+  .threshold-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--ember-dim), transparent);
+    margin-bottom: 2.5rem;
+    animation: linefade 3s ease-in-out infinite;
+  }
 
-    .instruction {
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      color: var(--ash);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards 2.4s;
-    }
+  @keyframes linefade {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
 
-    .offering-form {
-      width: 100%;
-      max-width: 420px;
-      opacity: 0;
-      animation: riseIn 1.5s ease forwards 3.0s;
-    }
+  .site-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--mist);
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.3s forwards;
+  }
 
-    .offering-input {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid var(--ash);
-      padding: 0.75rem 0;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-style: italic;
-      color: var(--light);
-      text-align: center;
-      outline: none;
-      transition: border-color 0.4s ease;
-      caret-color: var(--ember);
-    }
+  .main-phrase {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(1.6rem, 5vw, 3rem);
+    color: var(--light-dim);
+    text-align: center;
+    line-height: 1.4;
+    letter-spacing: 0.05em;
+    max-width: 520px;
+    margin-bottom: 0.6rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.6s forwards;
+  }
 
-    .offering-input::placeholder {
-      color: var(--ash);
-      font-style: italic;
-    }
+  .main-phrase em {
+    font-style: italic;
+    color: var(--light);
+  }
 
-    .offering-input:focus {
-      border-color: var(--ember-dim);
-    }
+  .sub-phrase {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(0.85rem, 2vw, 1.05rem);
+    color: var(--ember-dim);
+    text-align: center;
+    letter-spacing: 0.08em;
+    margin-bottom: 4rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.9s forwards;
+  }
 
-    .offering-input.has-value {
-      border-color: var(--ember);
-    }
+  /* ── ENTER INTERACTION ── */
+  .enter-wrap {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 1s ease 1.3s forwards;
+  }
 
-    .pass-btn {
-      display: block;
-      margin: 2.5rem auto 0;
-      background: none;
-      border: 1px solid var(--ember-dim);
-      color: var(--ember);
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      padding: 0.85rem 2.5rem;
-      cursor: pointer;
-      transition: all 0.4s ease;
-      opacity: 0;
-      pointer-events: none;
-    }
+  #enterBtn {
+    background: transparent;
+    border: 1px solid var(--ember-dim);
+    color: var(--light-dim);
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.4s, border-color 0.4s;
+  }
 
-    .pass-btn.visible {
-      opacity: 1;
-      pointer-events: all;
-      animation: fadeIn 0.8s ease forwards;
-    }
+  #enterBtn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(200, 134, 74, 0.07);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
 
-    .pass-btn:hover {
-      background: rgba(201,169,110,0.06);
-      border-color: var(--ember);
-      box-shadow: 0 0 24px rgba(201,169,110,0.08);
-    }
+  #enterBtn:hover {
+    color: var(--ember);
+    border-color: var(--ember);
+  }
 
-    /* Dissolve transition */
-    .dissolve {
-      animation: dissolveOut 1.2s ease forwards;
-    }
+  #enterBtn:hover::before {
+    transform: translateX(0);
+  }
 
-    @keyframes dissolveOut {
-      to { opacity: 0; transform: scale(1.03); }
-    }
+  .turn-back {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--ember-dim);
+    cursor: pointer;
+    letter-spacing: 0.08em;
+    transition: color 0.3s;
+    background: none; border: none;
+    font-family: 'Cormorant Garamond', serif;
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+  .turn-back:hover { color: var(--mist); }
 
-    @keyframes riseIn {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  /* ── FOOTER ── */
+  .vestibule-footer {
+    position: fixed;
+    bottom: 1.5rem; left: 0; right: 0;
+    text-align: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    color: var(--ember-dim);
+    opacity: 0;
+    animation: fadeUp 1s ease 1.8s forwards;
+  }
 
-    /* Back */
-    .back-link {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Courier Prime', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.3em;
-      color: var(--ember-dim);
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: color 0.3s;
-      z-index: 10;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards 3.5s;
-    }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-    .back-link:hover { color: var(--ember-dim); }
-  </style>
+  /* ── TRANSITION OVERLAY ── */
+  #overlay {
+    position: fixed; inset: 0;
+    background: var(--deep);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+  }
+
+  #overlay.closing {
+    opacity: 1;
+  }
+</style>
 </head>
 <body>
 
-  <div class="container" id="gate">
-    <div class="seam"></div>
+<div class="bg"></div>
+<div id="overlay"></div>
 
-    <p class="gate-label">To Define 'MyOwnAI', would be to define BD.</p>
+<div id="vestibule">
+  <div class="threshold-line"></div>
+  <div class="site-label">myownframing.com</div>
 
-    <div class="paradox">
-      <p>
-        There is <em>the creator</em>, and <em>created</em>,<br />
-        and the space in which they meet;<br /><br />
-        To pass by — offer a word<br />
-        that can belong to all three.
-      </p>
-    </div>
-
-    <p class="instruction">:smirks:</p>
-
-    <div class="offering-form">
-      <input
-        class="offering-input"
-        id="offeringInput"
-        type="text"
-        placeholder="Or, if you’re a friend of BD’s, just say that."
-        autocomplete="off"
-        spellcheck="false"
-      />
-      <button class="pass-btn" id="passBtn" onclick="enter()">
-        Pass Through
-      </button>
-    </div>
+  <div class="main-phrase">
+    Mind the gate<br><em>ahead.</em>
   </div>
 
-  <a class="back-link" href="index.html">&larr; return</a>
+  <div class="sub-phrase">
+    not every space is meant for every visitor.
+  </div>
 
-  <script>
-    const input = document.getElementById('offeringInput');
-    const btn = document.getElementById('passBtn');
-    const gate = document.getElementById('gate');
-    
-  function countSyllables(word) {
-    word = word.toLowerCase().trim();
-    if (word.length <= 3) return 1; 
-    word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
-    word = word.replace(/^y/, '');
-    const syllables = word.match(/[aeiouy]{1,2}/g);
-    return syllables ? syllables.length : 1;
-}   
-    input.addEventListener('input', () => {
-      const hasValue = input.value.trim().length > 0;
-      input.classList.toggle('has-value', hasValue);
-      btn.classList.toggle('visible', hasValue);
-    });
+  <div class="enter-wrap">
+    <button id="enterBtn">I understand — enter</button>
+    <button class="turn-back" onclick="history.back()">turn back</button>
+  </div>
+</div>
 
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && input.value.trim().length > 0) enter();
-    });
+<div class="vestibule-footer">© 2026 MYOWNFRAMING — TRANSITION SPACE</div>
 
-    function enter() {
-    const offering = input.value.trim();
-    
-    // --- THE NEW RULE ---
-    if (countSyllables(offering) === 1) {
-        input.value = ''; 
-        input.placeholder = "Ah, that'd be too ezpz -- More spark required.";
-        return; // Stops them from passing
-    }
-    // --------------------
+<script>
+  // ── Floating particles ──
+  const bg = document.querySelector('.bg');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 3 + 1;
+    p.style.cssText = `
+      width: ${size}px;
+      height: ${size}px;
+      left: ${Math.random() * 100}%;
+      animation-duration: ${Math.random() * 15 + 12}s;
+      animation-delay: ${Math.random() * 10}s;
+      --drift: ${(Math.random() - 0.5) * 80}px;
+    `;
+    bg.appendChild(p);
+  }
 
-    localStorage.setItem('userOffering', offering);
-    gate.classList.add('dissolve');
+  // ── Enter logic ──
+  document.getElementById('enterBtn').addEventListener('click', () => {
+    const overlay = document.getElementById('overlay');
+    const vestibule = document.getElementById('vestibule');
+    vestibule.classList.add('dissolve');
+    overlay.classList.add('closing');
     setTimeout(() => {
-        window.location.href = 'myownai.html';
-    }, 1200);
-}
-  </script>
+      window.location.href = 'myownai.html';
+    }, 1000);
+  });
+</script>
 </body>
 </html>
