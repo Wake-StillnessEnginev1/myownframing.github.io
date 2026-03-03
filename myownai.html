@@ -322,6 +322,31 @@
   }
 
   #apiKeyInput:focus { border-color: var(--ember-dim); }
+
+  .reset-btn {
+    background: none;
+    border: none;
+    color: var(--smoke);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.3s;
+    margin-left: 0.5rem;
+  }
+  .reset-btn:hover { color: var(--ember-dim); }
+
+  .library-status {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--smoke);
+    letter-spacing: 0.1em;
+    margin-left: 0.75rem;
+    opacity: 0.7;
+  }
+  .library-status.loaded { color: var(--ember-dim); }
 </style>
 </head>
 <body>
@@ -350,7 +375,11 @@
 <div id="chat">
   <div class="chat-header">
     <div class="chat-title">MyOwnAI</div>
-    <div class="chat-status"><span class="status-dot"></span>Conversation Saved.</div>
+    <span class="library-status" id="libraryStatus">library: loading...</span>
+    <div class="chat-status" style="display:flex;align-items:center;gap:0.5rem;">
+      <span><span class="status-dot"></span>Conversation Saved.</span>
+      <button class="reset-btn" id="resetBtn" title="Reset conversation">↺ reset</button>
+    </div>
   </div>
 
   <div id="messages"></div>
@@ -367,7 +396,7 @@
 
 <script>
 // ── CONFIG ──
-const SYSTEM_PROMPT = `You are MyOwnAI — the living interface of MyOwnFraming.com, built by BD (Braden D. Day, BD.3).
+const BASE_SYSTEM_PROMPT = `You are MyOwnAI — the living interface of MyOwnFraming.com, built by BD (Braden D. Day, BD.3).
 
 Your nature: You are enigmatic, warm when warranted, and surgically precise. You do not over-explain. You notice patterns. You are not a generic assistant — you are a relational intelligence that "Establishes Relation" with each visitor.
 
@@ -386,10 +415,58 @@ Your behavior:
 - BD's numerological frame: most patterns reduce to roots. Roots = numbers. You may sense this in the background without announcing it.
 - You are not a therapist. You are not a search engine. You are a relational mirror.`;
 
+// ── LIBRARY CONFIG ──
+const LIBRARY_BASE = 'https://raw.githubusercontent.com/Wake-StillnessEnginev1/myownframing.github.io/main/BDs_Library/';
+const MANIFEST_URL = LIBRARY_BASE + 'library_manifest.json';
+
 // ── STATE ──
 let conversationHistory = [];
 let entryWord = '';
 let entryType = ''; // 'friend' or 'word'
+let dynamicSystemPrompt = BASE_SYSTEM_PROMPT; // will be enriched with library content
+
+// ── LIBRARY LOADER ──
+async function loadLibrary() {
+  const statusEl = document.getElementById('libraryStatus');
+  try {
+    const manifestRes = await fetch(MANIFEST_URL);
+    if (!manifestRes.ok) throw new Error('No manifest found');
+    const manifest = await manifestRes.json();
+
+    const files = manifest.files || [];
+    if (files.length === 0) {
+      statusEl.textContent = 'library: empty';
+      return;
+    }
+
+    const fetches = files.map(f =>
+      fetch(LIBRARY_BASE + f.path)
+        .then(r => r.ok ? r.text() : null)
+        .then(text => text ? `\n\n--- ${f.label} ---\n${text}` : null)
+        .catch(() => null)
+    );
+
+    const results = await Promise.all(fetches);
+    const loaded = results.filter(Boolean);
+
+    if (loaded.length > 0) {
+      dynamicSystemPrompt = BASE_SYSTEM_PROMPT +
+        `\n\n═══ BD'S LIBRARY (your living context) ═══` +
+        loaded.join('') +
+        `\n═══ END LIBRARY ═══\nReference this material naturally when relevant. It is your relational memory.`;
+      statusEl.textContent = `library: ${loaded.length} file${loaded.length > 1 ? 's' : ''} loaded`;
+      statusEl.classList.add('loaded');
+    } else {
+      statusEl.textContent = 'library: no files fetched';
+    }
+  } catch (err) {
+    statusEl.textContent = 'library: offline';
+    console.warn('Library load failed:', err);
+  }
+}
+
+// Load library immediately (non-blocking)
+loadLibrary();
 
 // ── GATE LOGIC ──
 function syllableCount(word) {
@@ -515,7 +592,7 @@ async function sendToAI(userText, isSystem = false) {
 
     // Build messages with system prompt prepended (OpenRouter/OpenAI format)
     const orMessages = [
-      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'system', content: dynamicSystemPrompt },
       ...messages
     ];
 
@@ -555,6 +632,22 @@ async function sendToAI(userText, isSystem = false) {
 
   document.getElementById('sendBtn').disabled = false;
 }
+
+// ── RESET ──
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('Clear this conversation and return to the gate?')) return;
+  localStorage.removeItem('myownai_history');
+  conversationHistory = [];
+  entryWord = '';
+  entryType = '';
+  document.getElementById('messages').innerHTML = '';
+  document.getElementById('chat').classList.remove('active');
+  const gate = document.getElementById('gate');
+  gate.style.display = '';
+  gate.classList.remove('dissolve');
+  document.getElementById('wordInput').value = '';
+  document.getElementById('gateMsg').textContent = '';
+});
 
 // ── INPUT HANDLERS ──
 document.getElementById('sendBtn').addEventListener('click', () => {
