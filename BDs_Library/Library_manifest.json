@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "path": "Dialogues/first_contact.md",
+      "label": "BD's Dialogue — First Contact"
+    },
+    {
+      "path": "Dialogues/second_contact.md",
+      "label": "BD's Dialogue — Second Contact"
+    }
+  ]
+}
