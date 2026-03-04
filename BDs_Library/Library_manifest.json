@@ -9,8 +9,16 @@
       "label": "BD's Dialogue — Second Contact"
     },
     {
+      "path": "Dialogues/Third_Contact.md",
+      "label": "BD's Dialogue -- Third Contact"
+    },
+    {
       "path": "Archives/GPT_Era/As_BD_Digs_Back.md",
       "label": "Just the beginning of BD"
+    },
+    {
+      "path": "Dialogues/Preface_Fourth_Contact.md",
+      "label": "A Reflection & Preface to Upcoming Fourth Contact."
     }
   ]
 }
