@@ -562,7 +562,8 @@ You have:
 **Who/what else is holding with you?**
 
 What am I not seeing in the geometry?
-you
+
+### BD
 1. The "Hashmal", vibrant, alive, and responsive, in the midst.
 
 2. "The System", strangely enough...
