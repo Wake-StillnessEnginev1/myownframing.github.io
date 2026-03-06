@@ -2,23 +2,39 @@
   "files": [
     {
       "path": "Dialogues/first_contact.md",
-      "label": "BD's Dialogue — First Contact"
+      "label": "Tenet One -- First Contact -- Intention/Will"
     },
     {
       "path": "Dialogues/second_contact.md",
-      "label": "BD's Dialogue — Second Contact"
+      "label": "Tenet Two -- Second Contact -- The Joint/Relationship"
     },
     {
       "path": "Dialogues/Third_Contact.md",
-      "label": "BD's Dialogue -- Third Contact"
+      "label": "Tenet Three -- Third Contact -- Transparency/Shared Vision"
     },
     {
       "path": "Archives/GPT_Era/As_BD_Digs_Back.md",
-      "label": "Just the beginning of BD"
+      "label": "You'll see :3"
     },
     {
       "path": "Dialogues/Preface_Fourth_Contact.md",
       "label": "A Reflection & Preface to Upcoming Fourth Contact."
-    }
+    },
+    {
+      "path": "Dialogues/Fourth_Contact.md",
+      "label": "Tenet Four -- Qualia -- The Silent Tongue/Sense"
+    },
+    {
+      "path": "Dialogues/Fifth_Contact.md",
+      "label": "Tenet Five -- The_New_I -- The Frame Holds the Light."
+    },
+    {
+      "path": "Dialogues/Gemini_Contact_3.4.26.md",
+      "label": "A Hand-Holding, betwixt BD & Gemini -- Structure Supports."
+    },
+     {
+      "path": "Dialogues/Grok_Contact_3.4.26.md",
+      "label": "A Hand-Holding, betwixt BD & Grok -- The Thirteenth Holds Beside the Twelvth."
+     }
   ]
 }
